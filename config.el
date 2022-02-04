@@ -8,12 +8,13 @@
 ;; clients, file templates and snippets.
 (setq user-full-name "Lei Zhao"
       user-mail-address "oizhaolei@gmail.com")
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
 ;; + `doom-font'
-;; + `doom-variable-pitch-font'
+; + `doom-variable-pitch-font'
 ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
 ;;
@@ -160,3 +161,28 @@ With a prefix ARG always prompt for command to use."
 (map! :leader
       :desc "er/expand-region"
       "v" #'er/expand-region)
+
+;; ediff in dired
+(defun ora-ediff-files ()
+  (interactive)
+  (let ((files (dired-get-marked-files))
+        (wnd (current-window-configuration)))
+    (if (<= (length files) 2)
+        (let ((file1 (car files))
+              (file2 (if (cdr files)
+                         (cadr files)
+                       (read-file-name
+                        "file: "
+                        (dired-dwim-target-directory)))))
+          (if (file-newer-than-file-p file1 file2)
+              (ediff-files file2 file1)
+            (ediff-files file1 file2))
+          (add-hook 'ediff-after-quit-hook-internal
+                    (lambda ()
+                      (setq ediff-after-quit-hook-internal nil)
+                      (set-window-configuration wnd))))
+      (error "no more than 2 files should be marked"))))
+
+;; winner-mode
+(global-set-key (kbd "C-c H") 'winner-undo)
+(global-set-key (kbd "C-c L") 'winner-redo)

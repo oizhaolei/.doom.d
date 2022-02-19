@@ -48,3 +48,8 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+
+(package! string-inflection)
+
+(package! crux)
+(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)

@@ -53,6 +53,11 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+;;
+(setq-hook! 'html-mode-hook +format-with :none)
+;; winner-mode
+(global-set-key (kbd "C-c H") 'winner-undo)
+(global-set-key (kbd "C-c L") 'winner-redo)
 
 
   (defun my/kill-all-buffers ()
@@ -183,6 +188,3 @@ With a prefix ARG always prompt for command to use."
                       (set-window-configuration wnd))))
       (error "no more than 2 files should be marked"))))
 
-;; winner-mode
-(global-set-key (kbd "C-c H") 'winner-undo)
-(global-set-key (kbd "C-c L") 'winner-redo)

@@ -56,8 +56,8 @@
 ;;
 (setq-hook! 'html-mode-hook +format-with :none)
 ;; winner-mode
-(global-set-key (kbd "C-c H") 'winner-undo)
-(global-set-key (kbd "C-c L") 'winner-redo)
+(global-set-key (kbd "C-<") 'winner-undo)
+(global-set-key (kbd "C->") 'winner-redo)
 
 
   (defun my/kill-all-buffers ()
@@ -141,24 +141,6 @@
     (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
   (global-set-key (kbd "M-C-[") 'my/numberic-decrease-region)
 
-  (defun my/open-curr-dir(arg)
-    "Open base dir of visited file in default external program.
-When in dired mode, open file under the cursor.
-
-With a prefix ARG always prompt for command to use."
-    (interactive "P")
-    (let* ((current-file-name
-            (if (eq major-mode 'dired-mode)
-                (dired-get-file-for-visit)
-              buffer-file-name))
-           (open (pcase system-type
-                   (`darwin "open")
-                   ((or `gnu `gnu/linux `gnu/kfreebsd) "xdg-open")))
-           (program (if (or arg (not open))
-                        (read-shell-command "Open current file with: ")
-                      open)))
-      (call-process program nil 0 nil current-file-name)))
-
 (map! :leader
       :desc "projectile find dir"
       "p d" #'projectile-find-dir)
@@ -188,3 +170,30 @@ With a prefix ARG always prompt for command to use."
                       (set-window-configuration wnd))))
       (error "no more than 2 files should be marked"))))
 
+(map! :leader
+      :prefix "d"
+      "t" #'my/today
+      "d" #'ora-ediff-files
+      "c" #'my/js-console-log-region
+      "l" #'my/js-logger-region)
+
+
+;; calendar
+(defun my-open-calendar ()
+  (interactive)
+  (cfw:open-calendar-buffer
+   :contents-sources
+   (list
+    (cfw:org-create-source "Green")  ; orgmode source
+    (cfw:ical-create-source "gcal" "https://calendar.google.com/calendar/ical/lei.zhao%40sun-asterisk.com/public/basic.ics" "IndianRed") ; google calendar ICS
+   )))
+
+
+;; org mode + sqlite
+(org-babel-do-load-languages
+ 'org-babel-load-languages (quote ((emacs-lisp . t)
+                                   (sql . t)
+                                   (sqlite . t)
+                                   (js . t)
+                                   (R . t)
+                                   (python . t))))

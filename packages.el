@@ -52,3 +52,8 @@
 (package! string-inflection)
 
 (package! crux)
+
+;; for github, copy remote url with line number
+(package! git-link
+  :recipe (:host github :repo "sshaw/git-link"))
+(setq git-link-use-commit t)

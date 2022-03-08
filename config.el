@@ -14,7 +14,7 @@
 ;; are the three important ones:
 ;;
 ;; + `doom-font'
-; + `doom-variable-pitch-font'
+                                        ; + `doom-variable-pitch-font'
 ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
 ;;
@@ -26,7 +26,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'wheatgrass)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -60,94 +60,83 @@
 (global-set-key (kbd "C->") 'winner-redo)
 
 
-  (defun my/kill-all-buffers ()
-    "Kill all buffers."
-    (interactive)
-    (dolist (buffer (buffer-list))
-      (kill-buffer buffer)))
+(defun my/kill-all-buffers ()
+  "Kill all buffers."
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (kill-buffer buffer)))
 
-  (defun my/today ()
-    "Output current date."
-    (interactive)
-    (insert (format-time-string "%Y-%m-%d"))
-    )
-  (global-set-key (kbd "C-c m .") 'my/today)
+(defun my/today ()
+  "Output current date."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d"))
+  )
 
-  (defun my/js-if-region ()
-    "Write if of curent region to new line."
-    (interactive)
-    (let (myRegion)
-      (if (use-region-p)
-          (setq myRegion (buffer-substring (region-beginning) (region-end)))
-        (setq myRegion (thing-at-point 'word))
-        )
-      (end-of-line)
-      (newline-and-indent)
-      (insert (format "if (%s) {}" myRegion))))
+(defun my/js-if-region ()
+  "Write if of curent region to new line."
+  (interactive)
+  (let (myRegion)
+    (if (use-region-p)
+        (setq myRegion (buffer-substring (region-beginning) (region-end)))
+      (setq myRegion (thing-at-point 'word))
+      )
+    (end-of-line)
+    (newline-and-indent)
+    (insert (format "if (%s) {}" myRegion))))
 
-  (defun my/intl-region ()
-    "Write if of curent region to new line."
-    (interactive)
-    (let (myRegion)
-      (if (use-region-p)
-          (setq myRegion (buffer-substring (region-beginning) (region-end)))
-        (setq myRegion (thing-at-point 'word))
-        )
-      (kill-region (region-beginning) (region-end))
-      (insert (format "{intl.formatMessage({ id: 'name', defaultMessage: '%s' })}" myRegion))))
-  (global-set-key (kbd "C-c m i") 'my/intl-region)
+(defun my/intl-region ()
+  "Write if of curent region to new line."
+  (interactive)
+  (let (myRegion)
+    (if (use-region-p)
+        (setq myRegion (buffer-substring (region-beginning) (region-end)))
+      (setq myRegion (thing-at-point 'word))
+      )
+    (kill-region (region-beginning) (region-end))
+    (insert (format "{intl.formatMessage({ id: 'name', defaultMessage: '%s' })}" myRegion))))
 
-  (defun my/js-console-log-region ()
-    "Write console.log of curent region to new line."
-    (interactive)
-    (let (myRegion)
-      (if (use-region-p)
-          (setq myRegion (buffer-substring (region-beginning) (region-end)))
-        (setq myRegion (thing-at-point 'word))
-        )
-      (end-of-line)
-      (newline-and-indent)
-      (insert (format "console.log('%s:', %s);" myRegion myRegion))))
-  (global-set-key (kbd "C-c m c") 'my/js-console-log-region)
+(defun my/js-console-log-region ()
+  "Write console.log of curent region to new line."
+  (interactive)
+  (let (myRegion)
+    (if (use-region-p)
+        (setq myRegion (buffer-substring (region-beginning) (region-end)))
+      (setq myRegion (thing-at-point 'word))
+      )
+    (end-of-line)
+    (newline-and-indent)
+    (insert (format "console.log('%s:', %s);" myRegion myRegion))))
 
-  (defun my/js-logger-region ()
-    "Write console.log of curent region to new line."
-    (interactive)
-    (let (myRegion)
-      (if (use-region-p)
-          (setq myRegion (buffer-substring (region-beginning) (region-end)))
-        (setq myRegion (thing-at-point 'word))
-        )
-      (end-of-line)
-      (newline-and-indent)
-      (insert (format "logger.info('%s:', %s);" myRegion myRegion))))
-  (global-set-key (kbd "C-c m l") 'my/js-logger-region)
+(defun my/js-logger-region ()
+  "Write console.log of curent region to new line."
+  (interactive)
+  (let (myRegion)
+    (if (use-region-p)
+        (setq myRegion (buffer-substring (region-beginning) (region-end)))
+      (setq myRegion (thing-at-point 'word))
+      )
+    (end-of-line)
+    (newline-and-indent)
+    (insert (format "logger.info('%s:', %s);" myRegion myRegion))))
 
-  (defun my/numberic-increase-region ()
-    "Increase current region or point."
-    (interactive)
-    (skip-chars-backward "0-9")
-    (or (looking-at "[0-9]+")
-        (error "No number at point"))
-    (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
-  (global-set-key (kbd "M-C-]") 'my/numberic-increase-region)
+(defun my/numberic-increase-region ()
+  "Increase current region or point."
+  (interactive)
+  (skip-chars-backward "0-9")
+  (or (looking-at "[0-9]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+(global-set-key (kbd "M-C-]") 'my/numberic-increase-region)
 
-  (defun my/numberic-decrease-region ()
-    "Increase current region or point."
-    (interactive)
-    (skip-chars-backward "0-9")
-    (or (looking-at "[0-9]+")
-        (error "No number at point"))
-    (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
-  (global-set-key (kbd "M-C-[") 'my/numberic-decrease-region)
+(defun my/numberic-decrease-region ()
+  "Increase current region or point."
+  (interactive)
+  (skip-chars-backward "0-9")
+  (or (looking-at "[0-9]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
+(global-set-key (kbd "M-C-[") 'my/numberic-decrease-region)
 
-(map! :leader
-      :desc "projectile find dir"
-      "p d" #'projectile-find-dir)
-
-(map! :leader
-      :desc "er/expand-region"
-      "v" #'er/expand-region)
 
 ;; ediff in dired
 (defun ora-ediff-files ()
@@ -171,11 +160,37 @@
       (error "no more than 2 files should be marked"))))
 
 (map! :leader
-      :prefix "d"
-      "t" #'my/today
-      "d" #'ora-ediff-files
-      "c" #'my/js-console-log-region
-      "l" #'my/js-logger-region)
+      :desc "er/expand-region"
+      "v" #'er/expand-region)
+
+(map! :leader
+      ( :prefix-map ( "d" . "customize" )
+        :desc "duplicate line/region"
+        "d" #'crux-duplicate-current-line-or-region
+        :desc "ediff selected files"
+        "D" #'ora-ediff-files
+        :desc "print yyyy-mm-dd"
+        "." #'my/today
+        ( :prefix ( "m" . "mine" )
+          "c" #'my/js-console-log-region
+          "l" #'my/js-logger-region )
+        ( :prefix ( "t" . "tide" )
+          "a" #'tide-add-tslint-disable-next-line
+          "d" #'tide-documentation-at-point
+          "D" #'tide-references
+          "e" #'tide-error-at-point
+          "E" #'tide-project-errors
+          "f" #'tide-format
+          "F" #'tide-rename-file
+          "l" #'tide-list-servers
+          "n" #'tide-rename-symbol
+          "o" #'tide-organize-imports
+          "r" #'tide-refactor
+          "R" #'tide-restart-server
+          "t" #'tide-jsdoc-template
+          "v" #'tide-verify-setup
+          "x" #'tide-fix ) )
+      )
 
 
 ;; calendar
@@ -186,7 +201,7 @@
    (list
     (cfw:org-create-source "Green")  ; orgmode source
     (cfw:ical-create-source "gcal" "https://calendar.google.com/calendar/ical/lei.zhao%40sun-asterisk.com/public/basic.ics" "IndianRed") ; google calendar ICS
-   )))
+    )))
 
 
 ;; org mode + sqlite

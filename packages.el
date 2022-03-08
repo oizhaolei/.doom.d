@@ -52,4 +52,3 @@
 (package! string-inflection)
 
 (package! crux)
-(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)

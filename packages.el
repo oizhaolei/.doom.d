@@ -49,6 +49,7 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+;;; Code:
 (package! string-inflection)
 
 (package! crux)
@@ -57,3 +58,10 @@
 (package! git-link
   :recipe (:host github :repo "sshaw/git-link"))
 (setq git-link-use-commit t)
+
+;;
+(package! pulsar
+  :recipe (:host github :repo "protesilaos/pulsar"))
+
+(provide 'packages)
+;;; packages.el ends here

@@ -7,6 +7,7 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Lei Zhao"
+
       user-mail-address "oizhaolei@gmail.com")
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
@@ -36,6 +37,9 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
+;; org sql
+;; mssql client
+(setq sql-ms-program "/usr/local/bin/sqlcmd")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -159,6 +163,9 @@
                       (set-window-configuration wnd))))
       (error "no more than 2 files should be marked"))))
 
+;;
+;; CUSTOMIZE KEY BINDING
+;;
 (map! :leader
       :desc "er/expand-region"
       "v" #'er/expand-region)
@@ -192,6 +199,9 @@
           "x" #'tide-fix ) )
       )
 
+(map! :leader
+      :desc "github link with line no"
+      "g z" #'git-link)
 
 ;; calendar
 (defun my-open-calendar ()
@@ -212,3 +222,44 @@
                                    (js . t)
                                    (R . t)
                                    (python . t))))
+
+;; pulsar
+(customize-set-variable
+ 'pulsar-pulse-functions ; Read the doc string for why not `setq'
+ '(recenter-top-bottom
+   move-to-window-line-top-bottom
+   reposition-window
+   bookmark-jump
+   other-window
+   delete-window
+   delete-other-windows
+   forward-page
+   backward-page
+   scroll-up-command
+   scroll-down-command
+   windmove-right
+   windmove-left
+   windmove-up
+   windmove-down
+   windmove-swap-states-right
+   windmove-swap-states-left
+   windmove-swap-states-up
+   windmove-swap-states-down
+   tab-new
+   tab-close
+   tab-next
+   org-next-visible-heading
+   org-previous-visible-heading
+   org-forward-heading-same-level
+   org-backward-heading-same-level
+   outline-backward-same-level
+   outline-forward-same-level
+   outline-next-visible-heading
+   outline-previous-visible-heading
+   outline-up-heading))
+
+(setq pulsar-face 'pulsar-magenta)
+(setq pulsar-delay 0.055)
+
+;; git-link
+(setq git-link-use-commit t)

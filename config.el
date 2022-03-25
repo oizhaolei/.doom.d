@@ -27,7 +27,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'wheatgrass)
+(setq doom-theme 'manoj-dark)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -109,7 +109,11 @@
       )
     (end-of-line)
     (newline-and-indent)
-    (insert (format "console.log('%s:', %s);" myRegion myRegion))))
+    (if (eq major-mode 'rustic-mode)
+        (insert (format "println!(\"%s: {}\", %s);" myRegion myRegion))
+      (insert (format "console.log('%s:', %s);" myRegion myRegion))
+      )))
+
 
 (defun my/js-logger-region ()
   "Write console.log of curent region to new line."

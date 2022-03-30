@@ -37,9 +37,6 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
-;; org sql
-;; mssql client
-(setq sql-ms-program "/usr/local/bin/sqlcmd")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

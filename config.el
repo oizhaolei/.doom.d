@@ -27,7 +27,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'manoj-dark)
+(setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -56,6 +56,7 @@
 ;; they are implemented.
 ;;
 (setq-hook! 'html-mode-hook +format-with :none)
+(setq-hook! 'yaml-mode-hook +format-with :none)
 ;; winner-mode
 (global-set-key (kbd "C-<") 'winner-undo)
 (global-set-key (kbd "C->") 'winner-redo)
@@ -172,35 +173,6 @@
       "v" #'er/expand-region)
 
 (map! :leader
-      ( :prefix-map ( "d" . "customize" )
-        :desc "duplicate line/region"
-        "d" #'crux-duplicate-current-line-or-region
-        :desc "ediff selected files"
-        "D" #'ora-ediff-files
-        :desc "print yyyy-mm-dd"
-        "." #'my/today
-        ( :prefix ( "m" . "mine" )
-          "c" #'my/js-console-log-region
-          "l" #'my/js-logger-region )
-        ( :prefix ( "t" . "tide" )
-          "a" #'tide-add-tslint-disable-next-line
-          "d" #'tide-documentation-at-point
-          "D" #'tide-references
-          "e" #'tide-error-at-point
-          "E" #'tide-project-errors
-          "f" #'tide-format
-          "F" #'tide-rename-file
-          "l" #'tide-list-servers
-          "n" #'tide-rename-symbol
-          "o" #'tide-organize-imports
-          "r" #'tide-refactor
-          "R" #'tide-restart-server
-          "t" #'tide-jsdoc-template
-          "v" #'tide-verify-setup
-          "x" #'tide-fix ) )
-      )
-
-(map! :leader
       :desc "github link with line no"
       "g z" #'git-link)
 
@@ -214,15 +186,6 @@
     (cfw:ical-create-source "gcal" "https://calendar.google.com/calendar/ical/lei.zhao%40sun-asterisk.com/public/basic.ics" "IndianRed") ; google calendar ICS
     )))
 
-
-;; org mode + sqlite
-(org-babel-do-load-languages
- 'org-babel-load-languages (quote ((emacs-lisp . t)
-                                   (sql . t)
-                                   (sqlite . t)
-                                   (js . t)
-                                   (R . t)
-                                   (python . t))))
 
 ;; pulsar
 (customize-set-variable
@@ -261,6 +224,10 @@
 
 (setq pulsar-face 'pulsar-magenta)
 (setq pulsar-delay 0.055)
+(setq pulsar-highlight-face 'pulsar-yellow)
+(setq pulsar-pulse t)
+
+
 
 ;; git-link
 (setq git-link-use-commit t)

@@ -175,9 +175,10 @@
 ;; jump
 (map! :leader
       ( :prefix-map ( "j" . "jump" )
+        "c" #'ace-jump-char-mode
+        "j" #'ace-jump-char-mode
         "l" #'ace-jump-line-mode
         "w" #'ace-jump-word-mode
-        "c" #'ace-jump-char-mode
       ))
 
 (map! :leader

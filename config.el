@@ -176,58 +176,6 @@
       :desc "github link with line no"
       "g z" #'git-link)
 
-;; calendar
-(defun my-open-calendar ()
-  (interactive)
-  (cfw:open-calendar-buffer
-   :contents-sources
-   (list
-    (cfw:org-create-source "Green")  ; orgmode source
-    (cfw:ical-create-source "gcal" "https://calendar.google.com/calendar/ical/lei.zhao%40sun-asterisk.com/public/basic.ics" "IndianRed") ; google calendar ICS
-    )))
-
-
-;; pulsar
-(customize-set-variable
- 'pulsar-pulse-functions ; Read the doc string for why not `setq'
- '(recenter-top-bottom
-   move-to-window-line-top-bottom
-   reposition-window
-   bookmark-jump
-   other-window
-   delete-window
-   delete-other-windows
-   forward-page
-   backward-page
-   scroll-up-command
-   scroll-down-command
-   windmove-right
-   windmove-left
-   windmove-up
-   windmove-down
-   windmove-swap-states-right
-   windmove-swap-states-left
-   windmove-swap-states-up
-   windmove-swap-states-down
-   tab-new
-   tab-close
-   tab-next
-   org-next-visible-heading
-   org-previous-visible-heading
-   org-forward-heading-same-level
-   org-backward-heading-same-level
-   outline-backward-same-level
-   outline-forward-same-level
-   outline-next-visible-heading
-   outline-previous-visible-heading
-   outline-up-heading))
-
-(setq pulsar-face 'pulsar-magenta)
-(setq pulsar-delay 0.055)
-(setq pulsar-highlight-face 'pulsar-yellow)
-(setq pulsar-pulse t)
-
-
 
 ;; git-link
 (setq git-link-use-commit t)

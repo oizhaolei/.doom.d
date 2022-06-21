@@ -58,10 +58,6 @@
 (package! git-link
   :recipe (:host github :repo "sshaw/git-link"))
 
-;;
-(package! pulsar
-  :recipe (:host github :repo "protesilaos/pulsar"))
-
 ;; log commands to buffer
 (package! command-log-mode
   :recipe (:host github :repo "lewang/command-log-mode"))

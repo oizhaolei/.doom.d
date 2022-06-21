@@ -62,5 +62,9 @@
 (package! command-log-mode
   :recipe (:host github :repo "lewang/command-log-mode"))
 
+;; radio
+(package! eradio)
+
+
 (provide 'packages)
 ;;; packages.el ends here

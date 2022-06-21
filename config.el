@@ -194,3 +194,9 @@
 (global-set-key (kbd "s-3") 'winum-select-window-3)
 (global-set-key (kbd "s-4") 'winum-select-window-3)
 (global-set-key (kbd "s-5") 'winum-select-window-4)
+
+
+;; radio
+(map! :leader (:prefix ("r" . "eradio") :desc "Play a radio channel" "p" 'eradio-play))
+(map! :leader (:prefix ("r" . "eradio") :desc "Stop the radio player" "s" 'eradio-stop))
+(map! :leader (:prefix ("r" . "eradio") :desc "Toggle the radio player" "t" 'eradio-toggle))

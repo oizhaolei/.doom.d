@@ -172,6 +172,14 @@
       :desc "er/expand-region"
       "v" #'er/expand-region)
 
+;; jump
+(map! :leader
+      ( :prefix-map ( "j" . "jump" )
+        "l" #'ace-jump-line-mode
+        "w" #'ace-jump-word-mode
+        "c" #'ace-jump-char-mode
+      ))
+
 (map! :leader
       :desc "github link with line no"
       "g z" #'git-link)

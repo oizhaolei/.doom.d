@@ -183,7 +183,7 @@
 
 ;; github link with line no
 (map! :leader
-      :desc "github link with line no"
+      :desc "Github link with linenum"
       "g z" #'git-link)
 
 

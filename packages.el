@@ -65,6 +65,7 @@
 ;; radio
 (package! eradio)
 
+;; jump
 (package! ace-jump-mode)
 
 (provide 'packages)

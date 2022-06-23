@@ -65,6 +65,7 @@
 ;; radio
 (package! eradio)
 
+(package! ace-jump-mode)
 
 (provide 'packages)
 ;;; packages.el ends here

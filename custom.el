@@ -102,7 +102,7 @@
      ("triton-weos-aac" . "https://www.wxxi.org/sites/default/files/weos-aac-triton.m3u")
      ("triton-with-aac" . "https://www.wxxi.org/sites/default/files/with-aac-triton.m3u")
      ("triton-wrur-aac" . "https://www.wxxi.org/sites/default/files/wrur-aac-triton.m3u")) t)
- '(global-command-log-mode t))
+ '(global-command-log-mode t)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -202,3 +202,16 @@
 (map! :leader (:prefix ("r" . "eradio") :desc "Play a radio channel" "p" 'eradio-play))
 (map! :leader (:prefix ("r" . "eradio") :desc "Stop the radio player" "s" 'eradio-stop))
 (map! :leader (:prefix ("r" . "eradio") :desc "Toggle the radio player" "t" 'eradio-toggle))
+
+(defun my/synchronize-theme ()
+  ;; <Color theme initialization code>
+  (setq hour
+        (string-to-number
+         (substring (current-time-string) 11 13)))
+  (if (member hour (number-sequence 6 18))
+      (setq now 'leuven)
+    (setq now 'doom-dracula))
+  (if (equal now doom-theme)
+      nil
+    (load-theme now t)) )
+(run-with-timer 0 3600 'my/synchronize-theme)

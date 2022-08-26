@@ -10,6 +10,7 @@
 
       user-mail-address "oizhaolei@gmail.com")
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'load-path "/usr/local/Cellar/mu/1.6.11/share/emacs/site-lisp/mu/mu4e")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -57,6 +58,8 @@
 ;;
 (setq-hook! 'html-mode-hook +format-with :none)
 (setq-hook! 'yaml-mode-hook +format-with :none)
+(setq-hook! 'xml-mode-hook +format-with :none)
+(setq-hook! 'nxml-mode-hook +format-with :none)
 ;; winner-mode
 (global-set-key (kbd "C-<") 'winner-undo)
 (global-set-key (kbd "C->") 'winner-redo)
@@ -143,6 +146,8 @@
   (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
 (global-set-key (kbd "M-C-[") 'my/numberic-decrease-region)
 
+(global-set-key (kbd "M-p") 'drag-stuff-up)
+(global-set-key (kbd "M-n") 'drag-stuff-down)
 
 ;; ediff in dired
 (defun ora-ediff-files ()
@@ -164,6 +169,19 @@
                       (setq ediff-after-quit-hook-internal nil)
                       (set-window-configuration wnd))))
       (error "no more than 2 files should be marked"))))
+
+(defun my/synchronize-theme ()
+  ;; <Color theme initialization code>
+  (setq hour
+        (string-to-number
+         (substring (current-time-string) 11 13)))
+  (if (member hour (number-sequence 5 17))
+      (setq now 'leuven)
+    (setq now 'doom-dracula))
+  (if (equal now doom-theme)
+      nil
+    (load-theme now t)) )
+(run-with-timer 0 3600 'my/synchronize-theme)
 
 ;;
 ;; CUSTOMIZE KEY BINDING
@@ -203,15 +221,34 @@
 (map! :leader (:prefix ("r" . "eradio") :desc "Stop the radio player" "s" 'eradio-stop))
 (map! :leader (:prefix ("r" . "eradio") :desc "Toggle the radio player" "t" 'eradio-toggle))
 
-(defun my/synchronize-theme ()
-  ;; <Color theme initialization code>
-  (setq hour
-        (string-to-number
-         (substring (current-time-string) 11 13)))
-  (if (member hour (number-sequence 6 18))
-      (setq now 'leuven)
-    (setq now 'doom-dracula))
-  (if (equal now doom-theme)
-      nil
-    (load-theme now t)) )
-(run-with-timer 0 3600 'my/synchronize-theme)
+;; mu4e
+;; ;; we installed this with homebrew
+;; (setq mu4e-mu-binary (executable-find "mu"))
+
+;; ;; this is the directory we created before:
+;; (setq mu4e-maildir "~/.maildir")
+
+;; ;; this command is called to sync imap servers:
+;; (setq mu4e-get-mail-command (concat (executable-find "mbsync") " -a"))
+;; ;; how often to call it in seconds:
+;; (setq mu4e-update-interval 300)
+
+;; ;; save attachment to desktop by default
+;; ;; or another choice of yours:
+;; (setq mu4e-attachment-dir "~/Downloads")
+
+;; ;; rename files when moving - needed for mbsync:
+;; (setq mu4e-change-filenames-when-moving t)
+
+;; ;; list of your email adresses:
+;; (setq mu4e-user-mail-address-list '("oizhaolei@gmail.com"
+;;                                     "lei.zhao@as-cube.com"))
+
+;; (after! mu4e
+;;   (setq sendmail-program (executable-find "msmtp")
+;;         send-mail-function #'smtpmail-send-it
+;;         message-sendmail-f-is-evil t
+;;         message-sendmail-extra-arguments '("--read-envelope-from")
+;;         message-send-mail-function #'message-send-mail-with-sendmail))
+
+(global-set-key (kbd "C-c C-e") 'treemacs-select-window)

@@ -28,7 +28,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'modus-vivendi)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -177,7 +177,7 @@
          (substring (current-time-string) 11 13)))
   (if (member hour (number-sequence 5 17))
       (setq now 'leuven)
-    (setq now 'doom-dracula))
+    (setq now 'modus-vivendi))
   (if (equal now doom-theme)
       nil
     (load-theme now t)) )
@@ -251,4 +251,9 @@
 ;;         message-sendmail-extra-arguments '("--read-envelope-from")
 ;;         message-send-mail-function #'message-send-mail-with-sendmail))
 
-(global-set-key (kbd "C-c C-e") 'treemacs-select-window)
+
+(map! :leader
+      ( :prefix-map ( "t" . "toggle" )
+        "e" #'+treemacs/toggle
+        "t" #'treemacs-select-window
+      ))

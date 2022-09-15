@@ -101,7 +101,7 @@
     (insert (format "{intl.formatMessage({ id: 'name', defaultMessage: '%s' })}" myRegion))))
 
 (defun my/js-console-log-region ()
-  "Write console.log of curent region to new line."
+  "Write console.log of current region to new line."
   (interactive)
   (let (myRegion)
     (if (use-region-p)
@@ -110,14 +110,37 @@
       )
     (end-of-line)
     (newline-and-indent)
-    (if (eq major-mode 'rustic-mode)
-        (insert (format "println!(\"%s: {}\", %s);" myRegion myRegion))
-      (insert (format "console.log('%s:', %s);" myRegion myRegion))
-      )))
+    (insert (format "console.log('%s:', %s);" myRegion myRegion))))
+
+
+(defun my/rust-debug-region ()
+  "Write console.log of current region to new line."
+  (interactive)
+  (let (myRegion)
+    (if (use-region-p)
+        (setq myRegion (buffer-substring (region-beginning) (region-end)))
+      (setq myRegion (thing-at-point 'word))
+      )
+    (end-of-line)
+    (newline-and-indent)
+    (insert (format "println!(\"%s: {:?}\", %s);" myRegion myRegion))))
+
+
+(defun my/rust-println-region ()
+  "Write console.log of current region to new line."
+  (interactive)
+  (let (myRegion)
+    (if (use-region-p)
+        (setq myRegion (buffer-substring (region-beginning) (region-end)))
+      (setq myRegion (thing-at-point 'word))
+      )
+    (end-of-line)
+    (newline-and-indent)
+    (insert (format "println!(\"%s: {}\", %s);" myRegion myRegion))))
 
 
 (defun my/js-logger-region ()
-  "Write console.log of curent region to new line."
+  "Write login.info of current region to new line."
   (interactive)
   (let (myRegion)
     (if (use-region-p)
@@ -175,13 +198,13 @@
   (setq hour
         (string-to-number
          (substring (current-time-string) 11 13)))
-  (if (member hour (number-sequence 5 17))
+  (if (member hour (number-sequence 5 16))
       (setq now 'leuven)
     (setq now 'modus-vivendi))
   (if (equal now doom-theme)
       nil
     (load-theme now t)) )
-(run-with-timer 0 3600 'my/synchronize-theme)
+(run-with-timer 0 1200 'my/synchronize-theme)
 
 ;;
 ;; CUSTOMIZE KEY BINDING
@@ -257,3 +280,18 @@
         "e" #'+treemacs/toggle
         "t" #'treemacs-select-window
       ))
+(defun my-org-screenshot ()
+  "Save a clipboard's screenshot into a time stamped unique-named file
+   in a specified directory and insert a link to this file."
+  (interactive)
+  (setq filename
+        (concat
+         (make-temp-name
+          (concat (buffer-name)
+                  "_img_"
+                  (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+  (call-process "pngpaste" nil nil nil filename)
+  (insert (concat "[[./" filename "]]"))
+  (org-display-inline-images))
+
+(global-set-key (kbd "C-c C-x C-^") 'my-org-screenshot)

@@ -33,11 +33,10 @@
 
 ;;* Examples
 ;;** Example 1: text scale
-(when (bound-and-true-p hydra-examples-verbatim)
-  (defhydra hydra-zoom (global-map "<f2>")
-    "zoom"
-    ("g" text-scale-increase "in")
-    ("l" text-scale-decrease "out")))
+(defhydra hydra-zoom()
+  "zoom"
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out"))
 
 ;; This example generates three commands:
 ;;
@@ -59,63 +58,28 @@
 ;;       (function hydra-zoom/text-scale-decrease))
 
 ;;** Example 2: move window splitter
-(when (bound-and-true-p hydra-examples-verbatim)
-  (defhydra hydra-splitter (global-map "C-M-s")
-    "splitter"
-    ("h" hydra-move-splitter-left)
-    ("j" hydra-move-splitter-down)
-    ("k" hydra-move-splitter-up)
-    ("l" hydra-move-splitter-right)))
+(defhydra hydra-splitter()
+  "splitter"
+  ("h" hydra-move-splitter-left)
+  ("j" hydra-move-splitter-down)
+  ("k" hydra-move-splitter-up)
+  ("l" hydra-move-splitter-right)
+  ("q" nil "quit"))
 
 ;;** Example 3: jump to error
-(when (bound-and-true-p hydra-examples-verbatim)
-  (defhydra hydra-error (global-map "M-g")
-    "goto-error"
-    ("h" first-error "first")
-    ("j" next-error "next")
-    ("k" previous-error "prev")
-    ("v" recenter-top-bottom "recenter")
-    ("q" nil "quit")))
+(defhydra hydra-error()
+  "goto-error"
+  ("h" first-error "first")
+  ("j" next-error "next")
+  ("k" previous-error "prev")
+  ("v" recenter-top-bottom "recenter")
+  ("q" nil "quit"))
 
 ;; This example introduces only one new thing: since the command
 ;; passed to the "q" head is nil, it will quit the Hydra without doing
 ;; anything. Heads that quit the Hydra instead of continuing are
 ;; referred to as having blue :color. All the other heads have red
 ;; :color, unless other is specified.
-
-;;** Example 4: toggle rarely used modes
-(when (bound-and-true-p hydra-examples-verbatim)
-  (defvar whitespace-mode nil)
-  (global-set-key
-   (kbd "C-c C-v")
-   (defhydra hydra-toggle-simple (:color blue)
-     "toggle"
-     ("a" abbrev-mode "abbrev")
-     ("d" toggle-debug-on-error "debug")
-     ("f" auto-fill-mode "fill")
-     ("t" toggle-truncate-lines "truncate")
-     ("w" whitespace-mode "whitespace")
-     ("q" nil "cancel"))))
-
-;; Note that in this case, `defhydra' returns the `hydra-toggle-simple/body'
-;; symbol, which is then passed to `global-set-key'.
-;;
-;; Another new thing is that both the keymap and the body prefix are
-;; skipped.  This means that `defhydra' will bind nothing - that's why
-;; `global-set-key' is necessary.
-;;
-;; One more new thing is that you can assign a :color to the body. All
-;; heads will inherit this color. The code above is very much equivalent to:
-;;
-;;     (global-set-key (kbd "C-c C-v a") 'abbrev-mode)
-;;     (global-set-key (kbd "C-c C-v d") 'toggle-debug-on-error)
-;;
-;; The differences are:
-;;
-;; * You get a hint immediately after "C-c C-v"
-;; * You can cancel and call a command immediately, e.g. "C-c C-v C-n"
-;;   is equivalent to "C-n" with Hydra approach, while it will error
-;;   that "C-c C-v C-n" isn't bound with the usual approach.
 
 ;;** Example 5: mini-vi
 (defun hydra-vi/pre ()
@@ -286,7 +250,8 @@ _h_   _l_   _o_k        _y_ank
   ("u" undo nil)
   ("s" string-rectangle nil)
   ("x" kill-rectangle nil)
-  ("o" nil nil))
+  ("o" nil nil)
+  ("q" nil "quit"))
 
 ;; Recommended binding:
 ;; (global-set-key (kbd "C-x SPC") 'hydra-rectangle/body)
@@ -385,73 +350,31 @@ _y_: ?y? year       _q_: quit           _L__l__c_: log = ?l?"
       (rectangle-mark-mode 1)
       (goto-char mk))))
 
-(defhydra hydra-window ()
+
+(defhydra hydra-undo-tree (:color yellow
+                           :hint nil
+                           )
   "
-    Movement^   ^Split^         ^Switch^       ^^^Resize^         ^Window Purpose^
-    ------------------------------------------------------------------------------------------------------
-    _h_ ←        _|_ vertical    ^_b_uffer       _<left>_  X←     choose window _P_urpose
-    _j_ ↓        _-_ horizontal  ^_f_ind files   _<down>_  X↓     switch to _B_uffer w/ same purpose
-    _k_ ↑        _u_ undo        ^_a_ce window   _<up>_    X↑     Purpose-dedication(_!_)
-    _l_ →        _r_ reset       ^_s_wap         _<right>_ X→     Buffer-dedication(_#_)
-    ^^^^^^^                                      _M_aximize
-    ^^^^^^^                                      _d_elete
-    _x_ M-x      _q_ quit
-    "
-  ("h" windmove-left)
-  ("j" windmove-down)
-  ("k" windmove-up)
-  ("l" windmove-right)
-  ("|" (lambda ()
-         (interactive)
-         (split-window-right)
-         (windmove-right)))
-  ("-" (lambda ()
-         (interactive)
-         (split-window-below)
-         (windmove-down)))
-  ("u" (progn
-         (winner-undo)
-         (setq this-command 'winner-undo)))
-  ("r" winner-redo)
-  ("b" ivy -purpose-switch-buffer-without-purpose)
-  ("f" counsel-find-file)
-  ("a" (lambda ()
-         (interactive)
-         (ace-window 1)
-         (add-hook 'ace-window-end-once-hook
-                   'hydra-window/body)))
-  ("s" (lambda ()
-         (interactive)
-         (ace-swap-window)
-         (add-hook 'ace-window-end-once-hook
-                   'hydra-window/body)))
-  ("<left>" hydra-move-splitter-left)
-  ("<down>" hydra-move-splitter-down)
-  ("<up>" hydra-move-splitter-up)
-  ("<right>" hydra-move-splitter-right)
-  ("M" delete-other-windows)
-  ("d" delete-window)
+  _p_: undo  _n_: redo _s_: save _l_: load   "
+  ("p"   undo-tree-undo)
+  ("n"   undo-tree-redo)
+  ("s"   undo-tree-save-history)
+  ("l"   undo-tree-load-history)
+  ("u"   undo-tree-visualize "visualize" :color blue)
+  ("q"   nil "quit" :color blue))
 
-  ("P" purpose-set-window-purpose)
-  ("B" ivy-purpose-switch-buffer-with-purpose)
-  ("!" purpose-toggle-window-purpose-dedicated)
-  ("#" purpose-toggle-window-buffer-dedicated)
+(map! :leader
+      ( :prefix-map ( "y" . "hydra" )
+                    "b" #'hydra-buffer-menu/body
+                    "e" #'hydra-error/body
+                    "r" #'hydra-rectangle/body
+                    "s" #'hydra-splitter/body
+                    "t" #'hydra-toggle/body
+                    "u" #'hydra-undo-tree/body
+                    "z" #'hydra-zoom/body
+                    ))
 
-  ;; ("K" ace-delete-other-windows)
-  ;; ("S" save-buffer)
-  ;; ("d" delete-window)
-  ;; ("D" (lambda ()
-  ;;        (interactive)
-  ;;        (ace-delete-window)
-  ;;        (add-hook 'ace-window-end-once-hook
-  ;;                  'hydra-window/body))
-  ;;  )
-
-  ("x" counsel-M-x)
-  ("q" nil)
-  )
-
-;; (provide 'hydra-examples)
+(provide 'hydra-examples)
 
 ;; Local Variables:
 ;; no-byte-compile: t

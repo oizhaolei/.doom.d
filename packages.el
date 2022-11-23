@@ -50,37 +50,34 @@
 ;(unpin! t)
 
 ;;; Code:
+
+;; underscore -> UPCASE -> CamelCase conversion of names
 (package! string-inflection)
 
+;; A Collection of Ridiculously Useful eXtensions for Emacs
 (package! crux)
 
 ;; for github, copy remote url with line number
 (package! git-link
   :recipe (:host github :repo "sshaw/git-link"))
 
+;; Auto-Dark-Emacs is an auto changer between 2 themes, dark/light, following MacOS Dark Mode settings
+(package! auto-dark-emacs
+  :recipe (:host github :repo "LionyxML/auto-dark-emacs"))
+
 ;; log commands to buffer
 (package! command-log-mode
   :recipe (:host github :repo "lewang/command-log-mode"))
 
+;; Disable the mouse in Emacs
+(package! disable-mouse
+  :recipe (:host github :repo "purcell/disable-mouse"))
+
 ;; radio
-(package! eradio)
+;; (package! eradio)
 
-;; jump
+;; a quick cursor jump mode for emacs
 (package! ace-jump-mode)
-
-;; local-repo
-(package! my-package
-  :recipe (:local-repo "my/package"
-
-           ;; By default, the package manager grabs all *.el files at the root
-           ;; of the project and nothing else. To include other files, or
-           ;; accommodate unconventional project structures, specify what :files
-           ;; you want:
-           :files ("*.el" "src/lisp/*.el")
-
-           ;; With this you can avoid having to run 'doom sync' every time you
-           ;; change the package.
-           :build (:not compile)))
 
 (provide 'packages)
 ;;; packages.el ends here

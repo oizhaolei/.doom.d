@@ -28,7 +28,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'doom-moonlight)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -37,6 +37,13 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
+
+(global-disable-mouse-mode)
+(mapc #'disable-mouse-in-keymap
+  (list evil-motion-state-map
+        evil-normal-state-map
+        evil-visual-state-map
+        evil-insert-state-map))
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
@@ -112,6 +119,18 @@
     (newline-and-indent)
     (insert (format "console.log('%s:', %s);" myRegion myRegion))))
 
+
+(defun my/python-print-region ()
+  "Write console.log of current region to new line."
+  (interactive)
+  (let (myRegion)
+    (if (use-region-p)
+        (setq myRegion (buffer-substring (region-beginning) (region-end)))
+      (setq myRegion (thing-at-point 'word))
+      )
+    (end-of-line)
+    (newline-and-indent)
+    (insert (format "print(\"%s: \", %s)" myRegion myRegion))))
 
 (defun my/rust-debug-region ()
   "Write console.log of current region to new line."
@@ -193,26 +212,9 @@
                       (set-window-configuration wnd))))
       (error "no more than 2 files should be marked"))))
 
-(defun my/synchronize-theme ()
-  ;; <Color theme initialization code>
-  (setq hour
-        (string-to-number
-         (substring (current-time-string) 11 13)))
-  (if (member hour (number-sequence 5 16))
-      (setq now 'leuven)
-    (setq now 'modus-vivendi))
-  (if (equal now doom-theme)
-      nil
-    (load-theme now t)) )
-(run-with-timer 0 1200 'my/synchronize-theme)
-
 ;;
 ;; CUSTOMIZE KEY BINDING
 ;;
-(map! :leader
-      :desc "er/expand-region"
-      "v" #'er/expand-region)
-
 ;; jump
 (map! :leader
       ( :prefix-map ( "j" . "jump" )
@@ -237,12 +239,6 @@
 (global-set-key (kbd "s-3") 'winum-select-window-3)
 (global-set-key (kbd "s-4") 'winum-select-window-3)
 (global-set-key (kbd "s-5") 'winum-select-window-4)
-
-
-;; radio
-(map! :leader (:prefix ("r" . "eradio") :desc "Play a radio channel" "p" 'eradio-play))
-(map! :leader (:prefix ("r" . "eradio") :desc "Stop the radio player" "s" 'eradio-stop))
-(map! :leader (:prefix ("r" . "eradio") :desc "Toggle the radio player" "t" 'eradio-toggle))
 
 ;; mu4e
 ;; ;; we installed this with homebrew
@@ -275,12 +271,7 @@
 ;;         message-send-mail-function #'message-send-mail-with-sendmail))
 
 
-(map! :leader
-      ( :prefix-map ( "t" . "toggle" )
-        "e" #'+treemacs/toggle
-        "t" #'treemacs-select-window
-      ))
-(defun my-org-screenshot ()
+(defun my/org-screenshot ()
   "Save a clipboard's screenshot into a time stamped unique-named file
    in a specified directory and insert a link to this file."
   (interactive)
@@ -294,4 +285,4 @@
   (insert (concat "[[./" filename "]]"))
   (org-display-inline-images))
 
-(global-set-key (kbd "C-c C-x C-^") 'my-org-screenshot)
+(global-set-key (kbd "C-c C-x C-^") 'my/org-screenshot)

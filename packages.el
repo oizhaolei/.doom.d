@@ -62,8 +62,8 @@
   :recipe (:host github :repo "sshaw/git-link"))
 
 ;; Auto-Dark-Emacs is an auto changer between 2 themes, dark/light, following MacOS Dark Mode settings
-(package! auto-dark-emacs
-  :recipe (:host github :repo "LionyxML/auto-dark-emacs"))
+;; (package! auto-dark-emacs
+;;   :recipe (:host github :repo "LionyxML/auto-dark-emacs"))
 
 ;; log commands to buffer
 (package! command-log-mode

@@ -297,3 +297,10 @@
 ;;   (setq projectile-project-root-files-bottom-up
 ;;         (remove ".git"
 ;;                 projectile-project-root-files-bottom-up)))
+
+(use-package aider
+  :config
+  (setq aider-args '("--no-auto-commits" "--model" "openrouter/deepseek/deepseek-coder"))
+  (setenv "OPENAI_API_KEY" "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")
+  ;; Optional: Set a key binding for the transient menu
+  (global-set-key (kbd "C-c a") 'aider-transient-menu))

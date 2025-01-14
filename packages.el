@@ -86,8 +86,14 @@
 ;; a quick cursor jump mode for emacs
 (package! ace-jump-mode)
 
+;;drag stuff (words, region, lines) around
+(package! drag-stuff)
+
 (package! prisma-mode
   :recipe (:host github :repo "pimeys/emacs-prisma-mode" :branch "main"))
+
+(package! aider :recipe (:host github :repo "tninja/aider.el" :files ("*.el")))
+
 
 (provide 'packages)
 ;;; packages.el ends here

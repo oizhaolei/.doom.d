@@ -237,8 +237,8 @@
 (global-set-key (kbd "s-1") 'winum-select-window-1)
 (global-set-key (kbd "s-2") 'winum-select-window-2)
 (global-set-key (kbd "s-3") 'winum-select-window-3)
-(global-set-key (kbd "s-4") 'winum-select-window-3)
-(global-set-key (kbd "s-5") 'winum-select-window-4)
+(global-set-key (kbd "s-4") 'winum-select-window-4)
+(global-set-key (kbd "s-5") 'winum-select-window-5)
 
 ;; mu4e
 ;; ;; we installed this with homebrew

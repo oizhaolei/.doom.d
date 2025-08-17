@@ -27,7 +27,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-gruvbox-light)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -63,7 +63,7 @@
 ;; they are implemented.
 ;;
 ;; (setq-hook! 'html-mode-hook +format-with :none)
-;; (setq-hook! 'yaml-mode-hook +format-with :none)
+(setq-hook! 'yaml-mode-hook +format-with :none)
 ;; (setq-hook! 'xml-mode-hook +format-with :none)
 ;; (setq-hook! 'nxml-mode-hook +format-with :none)
 ;; winner-mode
@@ -141,7 +141,7 @@
       )
     (end-of-line)
     (newline-and-indent)
-    (insert (format "println!(\"%s: {:?}\", %s);" myRegion myRegion))))
+    (insert (format "println!(\"%s: {%s:?}\");" myRegion myRegion))))
 
 
 (defun my/rust-println-region ()
@@ -154,7 +154,7 @@
       )
     (end-of-line)
     (newline-and-indent)
-    (insert (format "println!(\"%s: {}\", %s);" myRegion myRegion))))
+    (insert (format "println!(\"%s: {%s}\");" myRegion myRegion))))
 
 
 (defun my/js-logger-region ()

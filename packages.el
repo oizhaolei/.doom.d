@@ -52,10 +52,14 @@
 ;;; Code:
 
 ;; underscore -> UPCASE -> CamelCase conversion of names
-(package! string-inflection)
+(package! string-inflection
+  :recipe (:host github :repo "akicho8/string-inflection" :branch "main"))
+
 
 ;; A Collection of Ridiculously Useful eXtensions for Emacs
-(package! crux)
+(package! crux
+  :recipe (:host github :repo "bbatsov/crux"))
+
 
 (package! apheleia)
 
